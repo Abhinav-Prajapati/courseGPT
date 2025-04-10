@@ -37,21 +37,17 @@ CourseGPT is an AI-powered learning platform that enables users to generate pers
 
     `git clone https://github.com/Abhinav-Prajapati/courseGPT.git cd courseGPT`
 
-2.  Install dependencies:​[GitHub+1GitHub+1](https://github.com/SE2026-Capstone/CourseGPT/blob/main/README.md?utm_source=chatgpt.com)
+2.  Install dependencies:
 
     `npm install # or yarn install`
 
-3.  Set up environment variables:​[GitHub+2GitHub+2GitHub+2](https://github.com/abhishekrj02/CourseGPT?utm_source=chatgpt.com)
+3.  Set up environment variables:
 
-        Create a `.env.local` file in the root directory and add your Supabase credentials:
+    Create a `.env.local` file in the root directory and add your Supabase credentials:
 
-        env
-
-        CopyEdit
-
-        `NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-
-    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key`
+    NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+    NEXT_PUBLIC_GEMINI_API_KEY=key_for_gemini_api
 
 4.  Run the development server:​
 
