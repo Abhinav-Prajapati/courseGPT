@@ -16,10 +16,16 @@ import {
   SidebarTrigger,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { dummyCourses } from "@/app/course/constant";
 import { useTheme } from "next-themes";
 import { useAuthStore } from "@/store/authStore";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabaseClient";
+
+interface Course {
+  id: string;
+  title: string;
+}
 
 interface CourseLayoutProps {
   children: ReactNode;
@@ -29,12 +35,30 @@ export function CourseLayout({ children }: CourseLayoutProps) {
   const router = useRouter();
   const pathname = usePathname();
   const { theme, setTheme } = useTheme();
-
   const { user } = useAuthStore();
+
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [loadingCourses, setLoadingCourses] = useState(true);
+
+  useEffect(() => {
+    async function fetchCourses() {
+      const { data, error } = await supabase
+        .from("courses")
+        .select("id, title");
+
+      if (!error && data) {
+        setCourses(data);
+      }
+
+      setLoadingCourses(false);
+    }
+
+    fetchCourses();
+  }, []);
 
   return (
     <SidebarProvider>
-      <div className="flex h-screen bg-background overflow-hidden">
+      <div className="flex h-screen bg-background overflow-hidden w-full">
         <Sidebar variant="floating" collapsible="icon">
           <SidebarHeader className="flex items-center justify-between px-4 py-2">
             <h2 className="text-xl font-bold truncate">CourseGPT</h2>
@@ -64,18 +88,26 @@ export function CourseLayout({ children }: CourseLayoutProps) {
                   My Courses
                 </h3>
                 <SidebarMenu>
-                  {dummyCourses.map((course) => (
-                    <SidebarMenuItem key={course.id}>
-                      <SidebarMenuButton
-                        isActive={pathname === `/course/${course.id}`}
-                        onClick={() => router.push(`/course/${course.id}`)}
-                        tooltip={course.title}
-                      >
-                        <Book size={18} />
-                        <span className="truncate">{course.title}</span>
-                      </SidebarMenuButton>
+                  {loadingCourses ? (
+                    <SidebarMenuItem>
+                      <span className="text-xs text-muted-foreground">
+                        Loading...
+                      </span>
                     </SidebarMenuItem>
-                  ))}
+                  ) : (
+                    courses.map((course) => (
+                      <SidebarMenuItem key={course.id}>
+                        <SidebarMenuButton
+                          isActive={pathname === `/course/${course.id}`}
+                          onClick={() => router.push(`/course/${course.id}`)}
+                          tooltip={course.title}
+                        >
+                          <Book size={18} />
+                          <span className="truncate">{course.title}</span>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    ))
+                  )}
                 </SidebarMenu>
               </div>
             </div>
@@ -116,7 +148,7 @@ export function CourseLayout({ children }: CourseLayoutProps) {
 
           <SidebarRail />
         </Sidebar>
-        <div className="">{children}</div>
+        <div className="w-full">{children}</div>
       </div>
     </SidebarProvider>
   );

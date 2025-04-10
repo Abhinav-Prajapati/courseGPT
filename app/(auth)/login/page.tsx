@@ -36,11 +36,15 @@ export default function Login() {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gradient-to-br from-sky-100 to-indigo-200">
-      <Card className="w-[350px] shadow-2xl">
+    <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-br from-sky-100 to-indigo-200 dark:from-gray-900 dark:to-gray-950 p-4 transition-colors">
+      <h1 className="text-3xl font-bold mb-6 text-gray-800 dark:text-white">
+        Sign in to{" "}
+        <span className="text-indigo-600 dark:text-indigo-400">CourseGPT</span>
+      </h1>
+      <Card className="w-full max-w-sm shadow-xl bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border border-white/30 dark:border-gray-700">
         <CardHeader>
-          <CardTitle>Login</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-gray-900 dark:text-white">Login</CardTitle>
+          <CardDescription className="text-sm text-gray-500 dark:text-gray-400">
             Welcome back! Please enter your credentials.
           </CardDescription>
         </CardHeader>
